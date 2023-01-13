@@ -8,11 +8,11 @@ bot = discord.Bot()
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="you"))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="/pebot-help"))
     print(f"{bot.user} is ready and online!")
 
 # Display all bot commands
-@bot.command(name = 'pebothelp', description = 'Help commands for Pebot')
+@bot.command(name = 'pebot-help', description = 'Help commands for Pebot')
 async def pebothelp(ctx):
     emb = discord.Embed(title = 'Help Commands', description = f'**/hello** - Say hello to **Pebot**!\n**/roll** - Roll the dice!\n**/quote** - Responds with a random quote from the server\n**/savequote** - Save a quote\n**/pevideos** - Responds with the URL to the TeamPE playlist\n**/wl** - W or L', color = discord.Colour.light_grey())
     await ctx.respond(embed=emb)
@@ -27,8 +27,8 @@ async def hello(ctx):
 async def roll(ctx, value=None):
     if value is None :
         value = 100
-    new = random.randint(int(1),int(value))
-    emb = discord.Embed(title = 'Roll', description = f"{ctx.author.mention} rolls **{new}** (1-{value})")
+    result = random.randint(int(1),int(value))
+    emb = discord.Embed(title = 'Roll', description = f"{ctx.author.mention} rolls **{result}** (1-{value})")
     await ctx.respond(embed=emb)
 
 # Bot responds with a W or L
@@ -50,12 +50,11 @@ async def alexander(ctx):
 # Respons with a quote from the server which are stored in the quotes.txt file
 @bot.command(name = 'quote', description = 'Responds with a random quote from the server')
 async def quote(ctx):
-    mylines = []
-    with open('quotes.txt', 'rt') as myfile:
-        for myline in myfile:
-            mylines.append(myline)
-
-    response = random.choice(mylines)
+    lines = []
+    with open('quotes.txt', 'rt') as qfile:
+        for line in qfile:
+            lines.append(line)
+    response = random.choice(lines)
     emb = discord.Embed(title = 'Quote', description = f"{response}", color = discord.Colour.nitro_pink())
     await ctx.respond(embed=emb)
 
